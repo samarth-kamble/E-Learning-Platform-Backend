@@ -1,9 +1,10 @@
+require("dotenv").config();
 import mongoose, { Document, Model, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 
 const emailRegexPattern: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// User Schema Types
 export interface IUser extends Document {
   name: string;
   email: string;
@@ -20,7 +21,6 @@ export interface IUser extends Document {
   SignRefreshToken: () => string;
 }
 
-// User Schema Definition
 const userSchema: Schema<IUser> = new mongoose.Schema(
   {
     name: {
@@ -34,14 +34,13 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
         validator: function (value: string) {
           return emailRegexPattern.test(value);
         },
-        message: "Please enter a valid email",
+        message: "please enter a valid email",
       },
       unique: true,
     },
     password: {
       type: String,
-      required: [true, "Please enter your password"],
-      minlength: [6, "Password must be at least 6 characters long"],
+      minlength: [6, "Password must be at least 6 characters"],
       select: false,
     },
     avatar: {
@@ -65,7 +64,7 @@ const userSchema: Schema<IUser> = new mongoose.Schema(
   { timestamps: true }
 );
 
-//Hashing Password before saving
+// Hash Password before saving
 userSchema.pre<IUser>("save", async function (next) {
   if (!this.isModified("password")) {
     next();
@@ -74,7 +73,21 @@ userSchema.pre<IUser>("save", async function (next) {
   next();
 });
 
-// Compare User Password
+// sign access token
+userSchema.methods.SignAccessToken = function () {
+  return jwt.sign({ id: this._id }, process.env.ACCESS_TOKEN || "", {
+    expiresIn: "5m",
+  });
+};
+
+// sign refresh token
+userSchema.methods.SignRefreshToken = function () {
+  return jwt.sign({ id: this._id }, process.env.REFRESH_TOKEN || "", {
+    expiresIn: "3d",
+  });
+};
+
+// compare password
 userSchema.methods.comparePassword = async function (
   enteredPassword: string
 ): Promise<boolean> {
@@ -82,4 +95,5 @@ userSchema.methods.comparePassword = async function (
 };
 
 const userModel: Model<IUser> = mongoose.model("User", userSchema);
+
 export default userModel;
