@@ -17,17 +17,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.className} antialiased`}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <ConvexClientProvider>{children}</ConvexClientProvider>
-        </ThemeProvider>
-      </body>
+    <html lang="en" suppressHydrationWarning>
+      <ConvexClientProvider>
+        <body className={`${inter.className} dark:bg-black`}>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            {children}
+          </ThemeProvider>
+        </body>
+      </ConvexClientProvider>
     </html>
   );
 }
