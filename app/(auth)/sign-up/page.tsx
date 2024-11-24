@@ -1,8 +1,14 @@
+"use client";
 import { Input } from "@/components/ui/input";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { FcGoogle } from "react-icons/fc";
+import { FaGithub } from "react-icons/fa";
 
 const SignUpPage = () => {
+  const [showPassword, setShowPassword] = useState(false);
   return (
     <section className="bg-white">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
@@ -62,7 +68,7 @@ const SignUpPage = () => {
               </a>
             </div>
             <h1 className="mt-2 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
-              Welcome to Ecommerce
+              Jion Us Today
             </h1>
             <p className="mt-4 leading-relaxed text-gray-500">
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi
@@ -124,37 +130,73 @@ const SignUpPage = () => {
                   htmlFor="Password"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  {" "}
-                  Password{" "}
+                  Password
                 </label>
-
-                <Input
-                  type="password"
-                  id="Password"
-                  name="password"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                />
+                <div className="relative mt-1">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    id="Password"
+                    name="password"
+                    className="w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-700"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
               </div>
 
               <div className="col-span-6 sm:col-span-3">
                 <label
-                  htmlFor="PasswordConfirmation"
+                  htmlFor="Password"
                   className="block text-sm font-medium text-gray-700"
                 >
-                  Password Confirmation
+                  Password
                 </label>
-
-                <Input
-                  type="password"
-                  id="PasswordConfirmation"
-                  name="password_confirmation"
-                  className="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
-                />
+                <div className="relative mt-1">
+                  <Input
+                    type={showPassword ? "text" : "password"}
+                    id="Password"
+                    name="password"
+                    className="w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-700"
+                  >
+                    {showPassword ? (
+                      <EyeOff className="w-5 h-5" />
+                    ) : (
+                      <Eye className="w-5 h-5" />
+                    )}
+                  </button>
+                </div>
               </div>
 
               <div className="flex flex-col col-span-6 sm:flex sm:items-center sm:gap-4">
                 <button className="w-full inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500">
                   Create an account
+                </button>
+                <Separator className="h-1" />
+                <button className="w-full inline-block shrink-0 rounded-md border border-gray-600 bg-white px-12 py-3 text-sm font-medium text-black transition hover:bg-transparent hover:text-gray-600 focus:outline-none focus:ring active:text-gray-700 ">
+                  <div className="flex flex-row items-center justify-center gap-3">
+                    <FcGoogle className="w-6 h-6" />
+                    Continue With Google
+                  </div>
+                </button>
+                <button className="w-full inline-block shrink-0 rounded-md border border-gray-600 bg-white px-12 py-3 text-sm font-medium text-black transition hover:bg-transparent hover:text-gray-600 focus:outline-none focus:ring active:text-gray-700">
+                  <div className="flex flex-row items-center justify-center gap-3">
+                    <FaGithub className="w-6 h-6" />
+                    Continue With Github
+                  </div>
                 </button>
                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                   <Link href={"/forgot-password"}>Forgot Your Password?</Link>
