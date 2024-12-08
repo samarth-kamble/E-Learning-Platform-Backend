@@ -1,115 +1,117 @@
 "use client";
+import React, { useState } from "react";
+import Link from "next/link";
 import { FaGithub } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
-import { Eye, EyeOff } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import { useState } from "react";
-
-const SignInForm = () => {
-  const [showPassword, setShowPassword] = useState(false);
-
+const SignIn = () => {
   return (
-    <section className="bg-black ">
-      <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
-        <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
-          <img
-            alt=""
-            src="./images/hero-2.png"
-            className=" absolute inset-0 w-full h-full object-cover"
-          />
-        </aside>
-        <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
-          <div className="max-w-xl lg:max-w-3xl">
-            <h1 className="mt-6 text-2xl font-bold text-white sm:text-3xl md:text-4xl">
-              Welcome to TechNest
-            </h1>
-
-            <p className="mt-4 leading-relaxed text-gray-400">
-              Quick, secure access to your personalized shopping experience.
-              AI-powered authentication with multiple login options and
-              intelligent security checks.
-            </p>
-
-            <form action="#" className="mt-8 grid grid-cols-6 gap-6">
-              <div className="col-span-6">
-                <Label
-                  htmlFor="Email"
-                  className="block text-sm font-medium text-gray-200"
-                >
-                  Email
-                </Label>
-
-                <input
-                  type="email"
-                  id="Email"
-                  name="email"
-                  className="mt-1 w-full rounded-md border-gray-700 bg-gray-900 text-sm text-gray-200 shadow-sm"
-                />
-              </div>
-
-              <div className="col-span-6">
-                <Label
-                  htmlFor="Password"
-                  className="block text-sm font-medium text-gray-200"
-                >
-                  Password
-                </Label>
-
-                <div className="relative">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    id="Password"
-                    name="password"
-                    className="mt-1 w-full rounded-md border-gray-700 bg-gray-900 text-sm text-gray-200 shadow-sm pr-10"
-                  />
-
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400"
-                  >
-                    {showPassword ? (
-                      <EyeOff className="w-5 h-5" />
-                    ) : (
-                      <Eye className="w-5 h-5" />
-                    )}
-                  </button>
-                </div>
-              </div>
-
-              <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                <Button className="w-full">Sign In</Button>
-              </div>
-            </form>
-            <Separator className="my-3 bg-gray-800" />
-            <div className="w-full flex flex-col gap-y-2">
-              <Button className="w-full">
-                <FaGithub className="mr-2" />
-                Sign in with Github
-              </Button>
-              <Button className="w-full">
-                <FcGoogle className="mr-2" />
-                Sign in with Google
-              </Button>
-            </div>
-            <div className="flex flex-col items-center justify-center">
-              <p className="mt-6 text-sm text-gray-600">
-                Don't have Account?{" "}
-                <Link href="/sign-up" className="text-blue-500 underline">
-                  Create New
+    <section className="bg-gray-1 py-10 dark:bg-dark lg:py-[55px]">
+      <div className="container mx-auto">
+        <div className="-mx-4 flex flex-wrap">
+          <div className="w-full px-4">
+            <div className="relative mx-auto max-w-[525px] overflow-hidden rounded-lg bg-white px-10 py-16 text-center dark:bg-dark-2 sm:px-12 md:px-[60px]">
+              <div className="mb-10 text-center md:mb-16">
+                <Link href="/" className="mx-auto inline-block max-w-[160px]">
+                  <img src="./images/logo.png" alt="logo" />
                 </Link>
-                .
+              </div>
+              <form>
+                <InputBox type="email" name="email" placeholder="Email" />
+                <PasswordInput name="password" placeholder="Password" />
+                <div className="mb-10">
+                  <input
+                    type="submit"
+                    value="Sign In"
+                    className="w-full cursor-pointer rounded-md border border-primary bg-primary px-5 py-3 text-base font-medium text-white transition hover:bg-opacity-90"
+                  />
+                </div>
+              </form>
+              <p className="mb-6 text-base text-secondary-color dark:text-dark-7">
+                Connect With
+              </p>
+              <ul className="-mx-2 mb-12 flex justify-between">
+                <li className="w-full px-2">
+                  <a
+                    href="/#"
+                    className="flex h-11 items-center justify-center rounded-md bg-[#b579ff] hover:bg-opacity-90"
+                  >
+                    <FcGoogle className="w-5 h-5" />
+                  </a>
+                </li>
+                <li className="w-full px-2">
+                  <Link
+                    href="/"
+                    className="flex h-11 items-center justify-center rounded-md bg-white border-2 hover:bg-opacity-90"
+                  >
+                    <FaGithub className="w-6 h-6" />
+                  </Link>
+                </li>
+              </ul>
+              <a
+                href="/#"
+                className="mb-2 inline-block text-base text-dark hover:text-primary hover:underline dark:text-white"
+              >
+                Forget Password?
+              </a>
+              <p className="text-base text-body-color dark:text-dark-6">
+                <span className="pr-0.5">Don't have an Account?</span>
+                <Link href="/sign-up" className="text-primary hover:underline">
+                  Sign Up
+                </Link>
               </p>
             </div>
           </div>
-        </main>
+        </div>
       </div>
     </section>
   );
 };
 
-export default SignInForm;
+export default SignIn;
+
+interface InputBoxProps {
+  type: string;
+  placeholder: string;
+  name: string;
+}
+
+const InputBox = ({ type, placeholder, name }: InputBoxProps) => {
+  return (
+    <div className="mb-6">
+      <input
+        type={type}
+        placeholder={placeholder}
+        name={name}
+        className="w-full rounded-md border border-stroke bg-transparent px-5 py-3 text-base text-body-color outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:text-white"
+      />
+    </div>
+  );
+};
+
+interface PasswordInputProps {
+  placeholder: string;
+  name: string;
+}
+
+const PasswordInput = ({ placeholder, name }: PasswordInputProps) => {
+  const [showPassword, setShowPassword] = useState(false);
+
+  return (
+    <div className="mb-6 relative">
+      <input
+        type={showPassword ? "text" : "password"}
+        placeholder={placeholder}
+        name={name}
+        className="w-full rounded-md border border-stroke bg-transparent px-5 py-3 text-base text-body-color outline-none focus:border-primary focus-visible:shadow-none dark:border-dark-3 dark:text-white"
+      />
+      <button
+        type="button"
+        onClick={() => setShowPassword((prev) => !prev)}
+        className="absolute inset-y-0 right-4 flex items-center text-gray-500 dark:text-gray-300"
+      >
+        {showPassword ? "Hide" : "Show"}
+      </button>
+    </div>
+  );
+};
