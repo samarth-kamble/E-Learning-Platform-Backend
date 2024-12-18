@@ -1,7 +1,12 @@
-import React from "react";
+"use client";
+import * as z from "zod";
+import Link from "next/link";
 import Image from "next/image";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { FaGithub } from "react-icons/fa";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import SignUp from "@/public/female_shopping_from_phone.jpg";
 import {
@@ -15,12 +20,84 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
+interface SignUpFormData {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+const signUpSchema = z
+  .object({
+    name: z
+      .string()
+      .min(2, { message: "Name must be at least 2 characters long" })
+      .max(50, { message: "Name must be less than 50 characters" })
+      .regex(/^[a-zA-Z\s]+$/, { message: "Name can only contain letters" }),
+
+    email: z.string().email({ message: "Invalid email address" }),
+
+    password: z
+      .string()
+      .min(8, { message: "Password must be at least 8 characters long" })
+      .regex(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+        {
+          message:
+            "Password must include uppercase, lowercase, number, and special character",
+        }
+      ),
+
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Passwords do not match",
+    path: ["confirmPassword"],
+  });
 
 const SignUpPage = () => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema),
+    mode: "onBlur",
+  });
+
+  const onSubmit = async (data: SignUpFormData) => {
+    setIsSubmitting(true);
+    try {
+      // Simulating an API call
+      console.log("Form Data:", data);
+      // Here you would typically send the data to your backend
+
+      // Reset form after successful submission
+      reset();
+      toast({
+        title: "Sign up successful",
+        description: "You have successfully signed up",
+        variant: "default",
+      });
+    } catch (error) {
+      toast({
+        title: "Sign up error",
+        description: "An error occurred while signing up",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center justify-center h-screen">
-      <Card className="w-[950px] h-[650px] p-8">
+      <Card className="w-[980px] h-[700px] p-8">
         <div className="flex h-full">
           {/* Left Section: Image */}
           <div className="w-1/2 bg-gray-100 flex items-center justify-center">
@@ -41,33 +118,66 @@ const SignUpPage = () => {
             </CardHeader>
 
             <CardContent className="space-y-5 px-0 pb-0">
-              <form className="space-y-2.5">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-2.5">
                 <div className="space-y-1">
                   <Label>Name</Label>
-                  <Input type="text" placeholder="Enter Your Name" required />
+                  <Input
+                    type="text"
+                    placeholder="Enter Your Name"
+                    {...register("name")}
+                  />
+                  {errors.name && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.name.message}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-1">
                   <Label>Email</Label>
-                  <Input type="text" placeholder="Enter Your Email" required />
+                  <Input
+                    type="text"
+                    placeholder="Enter Your Email"
+                    {...register("email")}
+                  />
+                  {errors.email && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.email.message}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-1">
                   <Label>Password</Label>
                   <Input
                     type="password"
                     placeholder="Enter Your Password"
-                    required
+                    {...register("password")}
                   />
+                  {errors.password && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.password.message}
+                    </p>
+                  )}
                 </div>
                 <div className="space-y-1">
                   <Label>Confirm Password</Label>
                   <Input
                     type="password"
                     placeholder="Confirm Your Password"
-                    required
+                    {...register("confirmPassword")}
                   />
+                  {errors.confirmPassword && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.confirmPassword.message}
+                    </p>
+                  )}
                 </div>
-                <Button type="submit" className="w-full font-bold" size={"lg"}>
-                  Continue
+                <Button
+                  type="submit"
+                  className="w-full font-bold"
+                  size={"lg"}
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Submitting..." : "Continue"}
                 </Button>
               </form>
               <Separator />
