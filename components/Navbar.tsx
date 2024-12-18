@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import { buttonVariants } from "./ui/button";
-import { ArrowRight, ShoppingBag } from "lucide-react";
+import { ArrowRight, Heart, ShoppingBag } from "lucide-react";
 
 const Navbar = () => {
   return (
@@ -54,6 +54,27 @@ const Navbar = () => {
           <div className="h-full flex items-center space-x-4">
             <>
               <Link
+                href="/wishlist"
+                className={buttonVariants({
+                  size: "sm",
+                  className: "hidden sm:flex items-center gap-1 cursor-pointer",
+                })}
+              >
+                <Heart className="h-5 w-5" />
+                WhishList
+              </Link>
+              <Link
+                href="/cart"
+                className={buttonVariants({
+                  size: "sm",
+                  className: "hidden sm:flex items-center gap-1 cursor-pointer",
+                })}
+              >
+                <ShoppingBag className="h-5 w-5" />
+                Cart
+              </Link>
+              <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
+              <Link
                 href="/sign-up"
                 className={buttonVariants({
                   size: "sm",
@@ -71,19 +92,6 @@ const Navbar = () => {
                 })}
               >
                 Sign In
-              </Link>
-
-              <div className="h-8 w-px bg-zinc-200 hidden sm:block" />
-
-              <Link
-                href="/cart"
-                className={buttonVariants({
-                  size: "sm",
-                  className: "hidden sm:flex items-center gap-1 cursor-pointer",
-                })}
-              >
-                <ShoppingBag className="h-5 w-5" />
-                Cart
               </Link>
             </>
           </div>
