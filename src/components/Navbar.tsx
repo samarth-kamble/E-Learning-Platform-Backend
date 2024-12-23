@@ -34,7 +34,7 @@ const Navbar = () => {
             Tech<span className="text-rose-600">Nest</span>
           </Link>
 
-          <div>
+          <div className="hidden sm:flex items-center space-x-4 font-semibold">
             <Link
               href="/"
               className={buttonVariants({
@@ -98,7 +98,7 @@ const Navbar = () => {
               WishList
             </Link>
             <Link
-              href="/configure/upload"
+              href="/cart"
               className={buttonVariants({
                 size: "sm",
                 className: "hidden sm:flex items-center gap-1 font-semibold",

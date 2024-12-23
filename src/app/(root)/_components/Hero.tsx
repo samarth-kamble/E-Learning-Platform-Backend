@@ -9,6 +9,12 @@ import Image3 from "../../../../public/img/images/hero/macbook.png";
 import Image4 from "../../../../public/img/images/hero/gaming.png";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import {
+  fadeInUp,
+  staggerContainer,
+  slideIn,
+} from "@/components/animations/animations";
 
 const HeroData = [
   {
@@ -64,15 +70,23 @@ const Hero = () => {
   };
 
   return (
-    <div className="container ml-12 sm:ml-0">
+    <div className="container mx-auto mt-6 px-4">
       <div className="overflow-hidden rounded-3xl min-h-[550px] sm:min-h-[650px] hero-bg-color flex items-center justify-center p-5 dark:bg-gray-900">
-        <div className="container pb-8 sm:pb-0">
+        <div className="w-full">
           <Slider {...settings}>
             {HeroData.map((data) => (
-              <div key={data.id}>
-                <div className="grid grid-cols-1 sm:grid-cols-2">
+              <motion.div
+                key={data.id}
+                initial="initial"
+                animate="animate"
+                variants={staggerContainer}
+              >
+                <div className="grid grid-cols-1 sm:grid-cols-2 items-center">
                   {/* Text Content Section */}
-                  <div className="flex flex-col justify-center gap-4 sm:pl-3 pt-12 sm:pt-0 text-center sm:text-left order-2 sm:order-1 relative z-10">
+                  <motion.div
+                    variants={fadeInUp}
+                    className="flex flex-col justify-center gap-4 sm:pl-3 pt-12 sm:pt-0 text-center sm:text-left order-2 sm:order-1 relative z-10"
+                  >
                     <h1 className="text-2xl sm:text-6xl lg:text-2xl font-bold dark:text-white">
                       {data.subtitle}
                     </h1>
@@ -87,20 +101,22 @@ const Hero = () => {
                         Shop Now
                       </Button>
                     </div>
-                  </div>
+                  </motion.div>
                   {/* Image Content Section */}
-                  <div className="order-1 sm:order-2">
+                  <motion.div
+                    variants={slideIn("right")}
+                    className="order-1 sm:order-2 flex justify-center"
+                  >
                     <div>
                       <Image
                         src={data.img}
                         alt="hero"
-                        className="w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] sm:scale-105 lg:scale-120 object-contain mx-auto drop-shadow-[-8px_4px_6px_rgba(0,0,0,0.4)] relative z-40"
+                        className="w-[300px] sm:w-[450px] h-[300px] sm:h-[450px] sm:scale-105 lg:scale-120 object-contain drop-shadow-[-8px_4px_6px_rgba(0,0,0,0.4)] relative z-40"
                       />
                     </div>
-                  </div>
-                  {/* Text Content Section */}
+                  </motion.div>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </Slider>
         </div>
