@@ -26,3 +26,29 @@ export const slideIn = (direction: "left" | "right" | "up" | "down") => ({
     transition: { type: "spring", duration: 1 },
   },
 });
+
+// components/animations/animations.js
+export const containerVariants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1,
+      duration: 0.5,
+    },
+  },
+};
+
+export const itemVariants = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      ease: "easeInOut",
+    },
+  },
+};

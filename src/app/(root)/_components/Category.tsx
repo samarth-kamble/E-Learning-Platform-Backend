@@ -1,10 +1,19 @@
+"use client";
+
 import React from "react";
+import { motion } from "framer-motion";
 import CategoryCard from "./CategoryCard"; // Adjust the import path as needed
+import PageTitle from "@/components/PageTitle";
 
 import Laptop from "../../../../public/img/images/hero/macbook.png";
 import Headphone from "../../../../public/img/images/hero/headphone.png";
 import Phone from "../../../../public/img/images/hero/Phone.jpg";
-import PageTitle from "@/components/PageTitle";
+
+import {
+  containerVariants,
+  itemVariants,
+} from "@/components/animations/animations";
+
 const categories = [
   {
     title: "Laptops",
@@ -34,22 +43,25 @@ const CategoriesSection = () => {
   return (
     <section className="py-12 bg-gray-50 dark:bg-black">
       <div className="container mx-auto px-4">
-        {/* <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
-          Explore Our Categories
-        </h2> */}
         <PageTitle title="Explore Our Categories" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        <motion.div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
           {categories.map((category, index) => (
-            <CategoryCard
-              key={index}
-              title={category.title}
-              description={category.description}
-              imageUrl={category.imageUrl}
-              link={category.link}
-              discount={category.discount}
-            />
+            <motion.div key={index} variants={itemVariants}>
+              <CategoryCard
+                title={category.title}
+                description={category.description}
+                imageUrl={category.imageUrl}
+                link={category.link}
+                discount={category.discount}
+              />
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
