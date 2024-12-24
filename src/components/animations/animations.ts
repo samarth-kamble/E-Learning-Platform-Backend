@@ -52,3 +52,19 @@ export const itemVariants = {
     },
   },
 };
+
+export const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: 0.8, ease: "easeOut" },
+  },
+  exit: {
+    opacity: 0,
+    y: -50,
+    scale: 0.9,
+    transition: { duration: 0.5, ease: "easeIn" },
+  },
+};
